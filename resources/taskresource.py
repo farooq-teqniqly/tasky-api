@@ -9,7 +9,7 @@ from schemas.taskschema import TaskSchema
 
 class TaskResource(Resource):
     def __init__(self, **kwargs):
-        self._task_repository: TaskRepository = kwargs["task_repository"]
+        self._task_repository: TaskRepository = kwargs.get("task_repository")
 
     def get(self, task_id: str):
         try:
@@ -20,10 +20,10 @@ class TaskResource(Resource):
             return {"message": "Error GETing task."}, 500
 
     def post(self, task_id: str):
-        if self._task_repository.get_task(task_id) is not None:
-            return {"message": f"The task with id '{task_id}' already exists."}, 400
-
         try:
+            if self._task_repository.get_task(task_id) is not None:
+                return {"message": f"The task with id '{task_id}' already exists."}, 400
+
             task_schema = TaskSchema()
             task_model: TaskModel = task_schema.load(request.get_json())
             task_model.task_id = task_id
