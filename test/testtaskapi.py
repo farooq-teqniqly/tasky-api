@@ -1,7 +1,8 @@
+import unittest
 from unittest import TestCase
 from unittest.mock import MagicMock
 
-from app import create_app
+from startup.createapp import create_app_and_api
 from models.taskmodel import TaskModel
 from resources.taskresource import TaskResource
 from respositories.taskrepository import TaskRepository
@@ -29,7 +30,7 @@ def _get_task_model_json():
 class TaskApiGetTests(TestCase):
     def setUp(self):
         self._mock_task_repo = MagicMock(spec=TaskRepository)
-        app, api = create_app()
+        app, api = create_app_and_api()
         api.add_resource(
             TaskResource,
             "/tasks/<string:task_id>",
@@ -81,7 +82,7 @@ class TaskApiGetTests(TestCase):
 class TaskApiPostTests(TestCase):
     def setUp(self):
         self._mock_task_repo = MagicMock(spec=TaskRepository)
-        app, api = create_app()
+        app, api = create_app_and_api()
         api.add_resource(
             TaskResource,
             "/tasks/<string:task_id>",
@@ -154,7 +155,7 @@ class TaskApiPostTests(TestCase):
 class TaskApiDeleteTests(TestCase):
     def setUp(self):
         self._mock_task_repo = MagicMock(spec=TaskRepository)
-        app, api = create_app()
+        app, api = create_app_and_api()
         api.add_resource(
             TaskResource,
             "/tasks/<string:task_id>",
@@ -186,3 +187,7 @@ class TaskApiDeleteTests(TestCase):
         # Assert
         self.assertEqual({"message": "Error DELETINGing task."}, response.get_json())
         self.assertEqual(500, response.status_code)
+
+
+if __name__ == "__main__":
+    unittest.main()
