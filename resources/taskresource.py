@@ -7,7 +7,7 @@ from respositories.taskrepository import TaskRepository
 from schemas.taskschema import TaskSchema
 
 
-class Task(Resource):
+class TaskResource(Resource):
     def __init__(self, **kwargs):
         self._task_repository: TaskRepository = kwargs["task_repository"]
 

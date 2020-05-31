@@ -7,7 +7,7 @@ class TaskModel:
         state: int,
         start_date: int,
         end_date: int,
-        custom_fields: dict = None,
+        custom_fields: dict = {},
     ):
         self.task_id = task_id
         self.name = name
