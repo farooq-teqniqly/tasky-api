@@ -4,6 +4,7 @@ from models.taskmodel import TaskModel
 
 
 class TaskSchema(Schema):
+
     task_id = fields.Str(required=False)
     name = fields.Str(required=True)
     priority = fields.Int(required=True)
@@ -11,6 +12,7 @@ class TaskSchema(Schema):
     start_date = fields.Int(required=True)
     end_date = fields.Int(required=True)
     custom_fields = fields.Dict(required=False)
+    sub_tasks = fields.List(fields.Nested(lambda: TaskSchema()))
 
     @post_load
     def make_task_model(self, data, **kwargs):
